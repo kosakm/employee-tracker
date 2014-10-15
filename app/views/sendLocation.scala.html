@@ -1,0 +1,35 @@
+@()(implicit request: RequestHeader)
+@()
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Schedule API WS</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<script src="@routes.Assets.at("javascripts/sendLocation.js")" type="text/javascript"></script>
+	</head>
+    <body>
+    	<header class="topbar">
+            <h1 class="fill">
+                <a href="@routes.Associate.test()">
+                    Send a location update message
+                </a>
+            </h1>
+        </header>
+        
+        <section id="main">
+            <input type="text" id="uuid"/>
+            <input type="text" id="dept"/>
+            <input type="text" id="site"/>
+			<button type="button" id="sendLocation" >Send a new Location</button>
+			<div id="status"></div>
+			<div id="request"></div>
+			<div id="output"></div>
+        </section>
+        
+
+    </body>
+</html>
+
