@@ -23,10 +23,11 @@ function sendLocation() {
 	if (websocket.readyState == websocket.CLOSED) {
 		testWebSocket();
 	}
-	var uuid = $('#uuid').val();
-	var dept = $('#dept').val();
+	var associate_id = $('#associate_id').val();
+	var department_id = $('#department_id').val();
 	var site = $('#site').val();
-	var locationUpdate = '{"uuid": "' + uuid + '", "department": "' + dept + '", "site": "' + site + '"}';
+	var event_type = $('#event_type').val();	
+	var locationUpdate = '{"associate_id": "' + associate_id + '", "department_id": "' + department_id + '", "site": "' + site + '", "event_type": "' + event_type + '"}';
 	doSend(locationUpdate);
 }
 

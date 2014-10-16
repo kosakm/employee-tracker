@@ -43,6 +43,7 @@ function onClose(evt) {
 
 function onMessage(evt) { 
 	console.log("Received message");
+	console.log(evt);
 	writeToScreen("RECEIVED MESSAGE", OUTPUT); 
 }  
 
