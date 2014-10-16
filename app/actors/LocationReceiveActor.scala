@@ -5,6 +5,7 @@ import akka.actor.ActorRef
 import akka.actor.Props
 import play.api.Logger
 import models.Location
+import play.Logger
 
 object LocationReceiveActor {
   def props(out: ActorRef) = Props(new LocationReceiveActor(out))
@@ -18,6 +19,7 @@ class LocationReceiveActor(out: ActorRef) extends Actor {
     case location: Location => {
       locNotifyActor ! location
       locPersistActor ! location     
+    case _ => {
     }
   }
 
