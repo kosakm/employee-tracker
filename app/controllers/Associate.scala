@@ -8,6 +8,9 @@ import models.Location
 import play.api.mvc.WebSocket.FrameFormatter
 import actors.LocationReceiveActor
 
+/**
+ * End point for Associate devices to receive location updates
+ */
 object Associate extends Controller {
   def ws = WebSocket.acceptWithActor[Location, JsValue] {request => out =>
 		  LocationReceiveActor.props(out)

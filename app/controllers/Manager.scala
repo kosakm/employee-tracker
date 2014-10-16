@@ -4,17 +4,15 @@ import play.api._
 import play.api.mvc._
 import play.api.libs.json._
 import play.api.Play.current
-import models.Location
 import play.api.mvc.WebSocket.FrameFormatter
-import actors.LocationReceiveActor
+import actors.LocationRetrieveActor
 
 object Manager extends Controller {
-  def ws = WebSocket.acceptWithActor[Location, JsValue] {request => out =>
-		  LocationReceiveActor.props(out)
+  def ws = WebSocket.acceptWithActor[String, JsValue] {request => out =>
+		  LocationRetrieveActor.props(out)
   }
 
   def test = Action {
-     implicit request =>
-       Ok(views.html.index("Your new application is ready."))
-   }
+    implicit request => Ok(views.html.receiveLocation())
+  }
 }

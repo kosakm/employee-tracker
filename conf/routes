@@ -12,3 +12,4 @@ GET /associateWs					controllers.Associate.ws
 GET /associateTest					controllers.Associate.test
 
 GET /managerWs						controllers.Manager.ws
+GET /managerTest					controllers.Manager.test
