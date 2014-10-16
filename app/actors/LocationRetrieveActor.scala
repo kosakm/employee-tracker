@@ -4,6 +4,9 @@ import akka.actor._
 import models.Location
 import play.api.Logger
 import play.api.libs.json.Json
+import scala.concurrent.Future
+import services.LocationService
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object LocationRetrieveActor {
     def props(out: ActorRef) = Props(new LocationRetrieveActor(out))
@@ -14,6 +17,7 @@ class LocationRetrieveActor(out: ActorRef) extends Actor {
   override def preStart() {
     Logger.info("Starting up a LocationRetrieveActor and subscribing to location events")
     context.system.eventStream.subscribe(context.self, classOf[Location])
+    out ! Future{LocationService.getCurrentLocations()}
   }
 
   override def postStop() {
