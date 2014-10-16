@@ -13,3 +13,5 @@ GET /associateTest					controllers.Associate.test
 
 GET /managerWs						controllers.Manager.ws
 GET /managerTest					controllers.Manager.test
+
+GET /tracker						controllers.Application.tracker
