@@ -40,3 +40,79 @@ ALTER TABLE location_event ADD CONSTRAINT loc_dep_fk FOREIGN KEY (department_id)
 ALTER TABLE location_event DROP CONSTRAINT loc_assoc_fk;
 
 ALTER TABLE location_event DROP CONSTRAINT loc_dep_fk;
+
+# Insert employee data
+# --- !Ups
+
+INSERT INTO associate
+	VALUES (12, 'Eva', 'Asplund');
+	
+INSERT INTO associate
+	VALUES (13, 'Austin', 'Luck');
+	
+INSERT INTO associate
+	VALUES (14, 'Matt', 'Kosak');
+	
+INSERT INTO associate
+	VALUES (15, 'Peyton', 'Wilkerson');
+	
+INSERT INTO associate
+	VALUES (16, 'Josh', 'Intern');
+	
+INSERT INTO associate
+	VALUES (17, 'Adam', 'Fisch');
+	
+INSERT INTO associate
+	VALUES (18, 'Jayson', 'Lewis');
+	
+# --- !Downs
+
+DELETE FROM associate
+	WHERE associate_id = 12;
+	
+DELETE FROM associate
+	WHERE associate_id = 13;
+	
+DELETE FROM associate
+	WHERE associate_id = 14;
+	
+DELETE FROM associate
+	WHERE associate_id = 15;
+	
+DELETE FROM associate
+	WHERE associate_id = 16;
+	
+DELETE FROM associate
+	WHERE associate_id = 17;
+	
+DELETE FROM associate
+	WHERE associate_id = 18;
+	
+# Add departments
+# --- !Ups
+
+INSERT INTO department
+	VALUES (24, 'Lingerie');
+	
+INSERT INTO department
+	VALUES (25, 'Mens Lingerie');
+	
+INSERT INTO department
+	VALUES (26, 'Dairy');
+	
+INSERT INTO department
+	VALUES (27, 'Electronics');
+	
+# --- !Downs
+
+DELETE FROM department
+	WHERE department_id = 24;
+	
+DELETE FROM department
+	WHERE department_id = 25;
+	
+DELETE FROM department
+	WHERE department_id = 26;
+	
+DELETE FROM department
+	WHERE department_id = 27;
