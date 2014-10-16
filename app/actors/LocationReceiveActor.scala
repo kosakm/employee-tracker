@@ -17,7 +17,7 @@ class LocationReceiveActor(out: ActorRef) extends Actor {
   def receive = {
     case location: Location => {
       locNotifyActor ! location
-      locPersistActor ! "Please persist this location event"      
+      locPersistActor ! location     
     }
   }
 

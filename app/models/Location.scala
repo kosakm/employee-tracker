@@ -8,6 +8,7 @@ import org.joda.time.DateTime
 case class Location(associateId: Int, departmentId: Int, site: String, eventTime: DateTime, eventType: Int)
 
 object Location {
+  
   implicit val locationReads: Reads[Location] = Json.reads[Location]
   implicit val locationWrites: Writes[Location] = Json.writes[Location]
   
