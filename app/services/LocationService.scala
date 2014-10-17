@@ -10,6 +10,7 @@ import models.AssociateLocation
 import models.Associate
 import org.joda.time.DateTime
 import java.sql.Timestamp
+import play.api.Logger
 
 
 object LocationService {
@@ -32,7 +33,7 @@ object LocationService {
       SQL("""SELECT loc.*, ass.first_name, ass.last_name 
              FROM location_event loc,
 	                associate ass
-             WHERE loc.associate_id = ass=associate_id AND
+             WHERE loc.associate_id = ass.associate_id AND
 	                 ass.associate_id = {associate_id}
              ORDER BY loc.event_time desc""")
       .on("associate_id" -> associateId).as(employeeLocationParser *)
@@ -41,9 +42,12 @@ object LocationService {
   }
   
   def getCurrentLocations(): List[AssociateLocation] = {
+    Logger.info("Getting current Locations")
     val associates = AssociateService.getAllAssociates()
+    Logger.info(s"Found ${associates.length} associates")
     val associateLocations = getCurrentLocations(associates)
-    List()
+    Logger.info(s"Returning current Locations $associateLocations")
+    associateLocations
   }
   
   def getCurrentLocations(associates: List[Associate]) = {
