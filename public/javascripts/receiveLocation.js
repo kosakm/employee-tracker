@@ -11,7 +11,7 @@ $(function () {
 });
 
 function init() {
-	wsURI = "ws://localhost:9000/managerWs";
+	wsURI = "ws://ec2-54-68-172-140.us-west-2.compute.amazonaws.com:9000/managerWs";
 	outputDiv = document.getElementById("output"); 
 	$("#receiveLocation").click(function() {
 		receiveLocation();

@@ -12,7 +12,7 @@ $(function () {
 });
 
 function init() {
-	wsURI = "ws://localhost:9000/associateWs";
+	wsURI = "ws://ec2-54-68-172-140.us-west-2.compute.amazonaws.com:9000/associateWs";
 	outputDiv = document.getElementById("output"); 
 	$("#sendLocation").click(function() {
 		sendLocation();
