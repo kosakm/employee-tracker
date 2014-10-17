@@ -57,4 +57,9 @@ object LocationService {
     }
     x.flatten
   }
+  
+  def getTotalEmployeesForDept(deptId: Int) = {
+    val currentLocations = getCurrentLocations();
+    currentLocations.count(x => x.location.departmentId == deptId);
+  }
 }

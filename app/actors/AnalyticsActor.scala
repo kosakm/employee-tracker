@@ -8,19 +8,20 @@ import scala.concurrent.Future
 import services.LocationService
 import scala.concurrent.ExecutionContext.Implicits.global
 import models.TransactionEvent
+import models.DepartmentTotal
 
 object AnalyticsActor {
     def props(out: ActorRef) = Props(new AnalyticsActor(out))
 }
 
 class AnalyticsActor(out: ActorRef) extends Actor {
-  
-  val salesActor = context.actorOf(Props(new SalesActor(12)), "SalesActor")
+  val deptActor = context.actorOf(Props(new DepartmentTotalsActor(25)), "DeptActor")
+  val salesActor = context.actorOf(Props(new SalesActor(25)), "SalesActor")
   
   override def preStart() {
     Logger.info("Starting up an Analytics and subscribing to transaction events")
     context.system.eventStream.subscribe(context.self, classOf[TransactionEvent])
-    context.system.eventStream.subscribe(context.self, classOf[Location])
+    context.system.eventStream.subscribe(context.self, classOf[DepartmentTotal])
   }
 
   override def postStop() {
@@ -32,9 +33,9 @@ class AnalyticsActor(out: ActorRef) extends Actor {
       Logger.info("Received sales. Sending back to the client")
       out ! Json.obj("response" -> sale)
     }
-    case location: Location => {
-      Logger.info("Received location. Sending back to the client")
-      out ! Json.obj("response" -> location)
+    case deptTotal: DepartmentTotal => {
+      Logger.info("Received dept total. Sending back to the client")
+      out ! Json.obj("response" -> deptTotal)
     }
     case _ => Logger.error("Could not handle message in AnalyticsActor")
   }

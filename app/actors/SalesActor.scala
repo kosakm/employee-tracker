@@ -20,10 +20,10 @@ class SalesActor(dept: Int) extends Actor {
     }
   
   // Fetch the latest stock value every 750ms
-  val salesTick = context.system.scheduler.schedule(Duration.Zero, 750.millis, self, FetchLatest)
+  val salesTick = context.system.scheduler.schedule(Duration.Zero, 750.millis, self, FetchTotal)
 
   def receive = {
-    case FetchLatest =>
+    case FetchTotal =>
       // add a new stock price to the history and drop the oldest
       val newSale = Math.random() * 100;
       Logger.info(s"new sale: $dept, $newSale");
@@ -32,4 +32,4 @@ class SalesActor(dept: Int) extends Actor {
   }
 }
 
-case object FetchLatest
+case object FetchTotal
