@@ -30,6 +30,7 @@ class LocationRetrieveActor(out: ActorRef) extends Actor {
     }
     case s: String => {
       if (s.equalsIgnoreCase("StartListening")){
+        Logger.info("StartListening received")
         out ! Future{LocationService.getCurrentLocations()}
       }
     }
