@@ -9,19 +9,20 @@ import java.util.Date
 import models.AssociateLocation
 import models.Associate
 import org.joda.time.DateTime
+import java.sql.Timestamp
 
 
 object LocationService {
-  val DATE_PATTERN = "yyyy-MM-dd HH:mm:ss:SS"
+  val DATE_PATTERN = "yyyy-MM-dd HH:mm:ss"
   
-  val employeeLocationParser = get[Int]("associate_id") ~ get[Int]("department_id") ~ get[String]("site_id") ~ get[Date]("event_time") ~ get[Int]("event_type") ~ AssociateService.associateParser map {
+  val employeeLocationParser = get[Int]("associate_id") ~ get[Int]("department_id") ~ get[Int]("site_id") ~ get[Date]("event_time") ~ get[Int]("event_type") ~ AssociateService.associateParser map {
 	  case associateId ~ departmentId ~ site ~ eventTime ~ eventType ~ associate =>  AssociateLocation(Location(associateId, departmentId, site, new DateTime(eventTime), eventType), Associate(associate.associateId, associate.firstName, associate.lastName))
   }
   
   def create(location: Location) = {
     val id: Option[Long] = DB.withConnection{ implicit c => 
       SQL("""INSERT INTO location_event(associate_id, department_id, site_id, event_time, event_type) values ({associate_id}, {department_id},{site},{event_time},{event_type})""")
-      .on("associate_id" -> location.associateId, "department_id" -> location.departmentId, "site" -> location.site, "event_time" -> location.eventTime.toString(DATE_PATTERN), "event_type" -> location.eventType)
+      .on("associate_id" -> location.associateId, "department_id" -> location.departmentId, "site" -> location.site, "event_time" -> new Timestamp(location.eventTime.toDate().getTime()), "event_type" -> location.eventType)
       .executeInsert()
     }
   }

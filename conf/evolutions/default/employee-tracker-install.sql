@@ -1,3 +1,11 @@
+# Create User
+# --- !Ups
+CREATE user live password 'live';
+
+# Drop User
+# --- !Downs
+CREATE user live;
+
 # Create tables
 # --- !Ups
 
@@ -30,16 +38,27 @@ DROP TABLE department;
 
 # Add foreign keys
 # --- !Ups
+GRANT ALL PRIVILEGES ON TABLE location_event TO live;
+GRANT ALL PRIVILEGES ON TABLE associate TO live;
+GRANT ALL PRIVILEGES ON TABLE department TO live;
 
 ALTER TABLE location_event ADD CONSTRAINT loc_assoc_fk FOREIGN KEY (associate_id) REFERENCES associate(associate_id) MATCH FULL;
 
 ALTER TABLE location_event ADD CONSTRAINT loc_dep_fk FOREIGN KEY (department_id) REFERENCES department(department_id) MATCH FULL;
+
+GRANT ALL PRIVILEGES ON TABLE location_event TO live;
+GRANT ALL PRIVILEGES ON TABLE associate TO live;
+GRANT ALL PRIVILEGES ON TABLE department TO live;
 
 # --- !Downs
 
 ALTER TABLE location_event DROP CONSTRAINT loc_assoc_fk;
 
 ALTER TABLE location_event DROP CONSTRAINT loc_dep_fk;
+
+REVOKE ALL PRIVILEGES ON TABLE location_event FROM wfm;
+REVOKE ALL PRIVILEGES ON TABLE associate FROM wfm;
+REVOKE ALL PRIVILEGES ON TABLE department FROM wfm;
 
 # Insert employee data
 # --- !Ups

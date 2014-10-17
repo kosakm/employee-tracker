@@ -28,8 +28,9 @@ function sendLocation() {
 	var site = $('#site').val();
 	var event_type = $('#event_type').val();	
 	var now = "2014-10-16 18:16:22 MST";
-	var locationUpdate = '{"associate_id": "' + associate_id + '", "department_id": "' + department_id + '", "site": "' + site + '", "event_time": "' + now + '", "event_type": "' + event_type + '"}';
-	doSend(locationUpdate);
+	var json = '{"associateId":12,"departmentId":24,"site":1,"eventTime":"2014-10-16 18:16:22","eventType":0}';
+	var locationUpdate = '"associate_id": ' + associate_id + ', "department_id": ' + department_id + ', "site": "' + site + '", "event_time": "' + now + '", "event_type": ' + event_type;
+	doSend(json);
 }
 
 function testWebSocket() {
