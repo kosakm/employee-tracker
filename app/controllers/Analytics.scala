@@ -12,7 +12,7 @@ import actors.AnalyticsActor
 import models.TransactionEvent
 
 object Analytics extends Controller {
-    def ws = WebSocket.acceptWithActor[JsValue, TransactionEvent] {request => out =>
+    def ws = WebSocket.acceptWithActor[JsValue, JsValue] {request => out =>
 		  AnalyticsActor.props(out)
   }
   

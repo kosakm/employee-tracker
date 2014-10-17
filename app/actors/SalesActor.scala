@@ -20,16 +20,18 @@ class SalesActor(dept: Int) extends Actor {
     }
   
   // Fetch the latest stock value every 750ms
-  val salesTick = context.system.scheduler.schedule(Duration.Zero, 750.millis, self, FetchLatest)
+  val salesTick = context.system.scheduler.schedule(Duration.Zero, 1000.millis, self, FetchTotal)
 
   def receive = {
-    case FetchLatest =>
-      // add a new stock price to the history and drop the oldest
-      val newSale = Math.random() * 100;
+    case FetchTotal =>
+      // add a new sale
+      val rnd = new scala.util.Random
+      val range = 10 to 50
+      val newSale = range(rnd.nextInt(range length));
       Logger.info(s"new sale: $dept, $newSale");
       context.system.eventStream.publish(TransactionEvent(dept, newSale))
     case _ => Logger.error("Couldn't handle message in SalesNotifyActor")
   }
 }
 
-case object FetchLatest
+case object FetchTotal
