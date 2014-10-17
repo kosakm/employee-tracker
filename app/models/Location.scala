@@ -12,7 +12,7 @@ import play.api.Logger
 import scala.util.Success
 
 
-case class Location(associateId: Int, departmentId: Int, site: String, eventTime: DateTime, eventType: Int)
+case class Location(associateId: Int, departmentId: Int, site: Int, eventTime: DateTime, eventType: Int)
 
 object Location {
   
@@ -22,7 +22,7 @@ object Location {
   }
   
   private def stringToDateTime(str: String): DateTime = {
-      val formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
+      val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
       formatter.parseDateTime(str);
   }
   

@@ -6,6 +6,9 @@ import akka.actor.Props
 import models.Location
 import play.api.Logger
 import models.LocationReq
+import scala.util.Try
+import scala.util.Success
+import scala.util.Failure
 
 object LocationReceiveActor {
   def props(out: ActorRef) = Props(new LocationReceiveActor(out))
@@ -17,9 +20,14 @@ class LocationReceiveActor(out: ActorRef) extends Actor {
 
   def receive = {
     case locationReq: LocationReq => {
-      val location = Location.locReqToLocation(locationReq)
-      locNotifyActor ! location
-      locPersistActor ! location  
+      val location = Try(Location.locReqToLocation(locationReq))
+      location match {
+        case Success(location) => {
+          locNotifyActor ! location
+          locPersistActor ! location
+        }
+        case Failure(e) => Logger.error("Couldn't parse event date passed", e)
+      }
     }
     case _ => Logger.info("Couldnt handle message in LocationReceiveActor")
   }

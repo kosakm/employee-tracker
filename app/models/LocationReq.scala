@@ -3,16 +3,15 @@ package models
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
 import play.api.libs.json.Reads._
+import play.api.libs.json.Writes._
 import play.api.mvc.WebSocket.FrameFormatter
 
-case class LocationReq(associateId: Int, departmentId: Int, site: String, eventTime: String, eventType: Int)
+case class LocationReq(associateId: Int, departmentId: Int, site: Int, eventTime: String, eventType: Int)
 
 object LocationReq {
-
-object Location {
   
-  implicit val locationReads: Reads[LocationReq] = Json.reads[LocationReq]
-  implicit val locationWrites: Writes[LocationReq] = Json.writes[LocationReq]
+  implicit val locationReqReads: Reads[LocationReq] = Json.reads[LocationReq]
+  implicit val locationReqWrites: Writes[LocationReq] = Json.writes[LocationReq]
   
 /*    // Json Read/Writes
   implicit val locationWrites: Writes[Location] = (
@@ -29,7 +28,6 @@ object Location {
     (JsPath \ "eventTime").read[DateTime] and
     (JsPath \ "eventType").read[Int])(Location.apply _)*/
 
-  implicit val locationFrame: Format[LocationReq] = Json.format[LocationReq]
-  implicit val locationFrameFormatter: FrameFormatter[LocationReq] = FrameFormatter.jsonFrame[LocationReq]
-}
+  implicit val locationReqFrame: Format[LocationReq] = Json.format[LocationReq]
+  implicit val locationReqFrameFormatter: FrameFormatter[LocationReq] = FrameFormatter.jsonFrame[LocationReq]
 }
