@@ -20,11 +20,12 @@ class DepartmentTotalsActor(dept: Int) extends Actor {
 
     override def preStart() {
     	currTotal = LocationService.getTotalEmployeesForDept(dept)
+    	context.system.eventStream.subscribe(context.self, classOf[Location]);
     	Logger.info(s"Starting DepartmentTotals with a total of $currTotal");
     }
   
   // Fetch the latest stock value every 750ms
-  val totalsTick = context.system.scheduler.schedule(Duration.Zero, 750.millis, self, FetchLatest)
+  val totalsTick = context.system.scheduler.schedule(Duration.Zero, 5.second, self, FetchLatest)
   
   def receive = {
     case FetchLatest =>
