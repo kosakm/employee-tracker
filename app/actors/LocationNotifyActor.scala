@@ -9,7 +9,9 @@ class LocationNotifyActor extends Actor {
   def receive = {
     case location: Location => 
       Logger.info("Publishing location message " + location)
-      context.system.eventStream.publish(location)
+      if (location.eventType == 0) {
+        context.system.eventStream.publish(location)  
+      }
     case _ => Logger.error("Couldn't handle message in LocationNotifyActor")
   }
 }
