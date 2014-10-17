@@ -13,11 +13,10 @@ object LocationRetrieveActor {
 }
 
 class LocationRetrieveActor(out: ActorRef) extends Actor {
-  
+  val Pattern = "(StartListening)(.*)".r
   override def preStart() {
     Logger.info("Starting up a LocationRetrieveActor and subscribing to location events")
     context.system.eventStream.subscribe(context.self, classOf[Location])
-    out ! Future{LocationService.getCurrentLocations()}
   }
 
   override def postStop() {
@@ -28,6 +27,11 @@ class LocationRetrieveActor(out: ActorRef) extends Actor {
     case location: Location => {
       Logger.info("Received location. Sending back to the client")
       out ! Json.obj("response" -> location)
+    }
+    case s: String => {
+      if (s.equalsIgnoreCase("StartListening")){
+        out ! Future{LocationService.getCurrentLocations()}
+      }
     }
     case _ => Logger.error("Could not handle message in LocationRetrieveActor")
   }
