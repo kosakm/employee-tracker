@@ -27,7 +27,8 @@ function sendLocation() {
 	var department_id = $('#department_id').val();
 	var site = $('#site').val();
 	var event_type = $('#event_type').val();	
-	var locationUpdate = '{"associate_id": "' + associate_id + '", "department_id": "' + department_id + '", "site": "' + site + '", "event_type": "' + event_type + '"}';
+	var now = "2014-10-16 18:16:22 MST";
+	var locationUpdate = '{"associate_id": "' + associate_id + '", "department_id": "' + department_id + '", "site": "' + site + '", "event_time": "' + now + '", "event_type": "' + event_type + '"}';
 	doSend(locationUpdate);
 }
 

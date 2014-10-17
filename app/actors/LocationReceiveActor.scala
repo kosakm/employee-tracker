@@ -3,9 +3,9 @@ package actors
 import akka.actor.Actor
 import akka.actor.ActorRef
 import akka.actor.Props
-import play.api.Logger
 import models.Location
-import play.Logger
+import play.api.Logger
+import models.LocationReq
 
 object LocationReceiveActor {
   def props(out: ActorRef) = Props(new LocationReceiveActor(out))
@@ -16,11 +16,12 @@ class LocationReceiveActor(out: ActorRef) extends Actor {
   val locPersistActor = context.actorOf(Props[LocationPersistActor], "LocationPersistActor")
 
   def receive = {
-    case location: Location => {
+    case locationReq: LocationReq => {
+      val location = Location.locReqToLocation(locationReq)
       locNotifyActor ! location
-      locPersistActor ! location     
-    case _ => {
+      locPersistActor ! location  
     }
+    case _ => Logger.info("Couldnt handle message in LocationReceiveActor")
   }
 
 }
