@@ -11,19 +11,20 @@ $(function () {
 	init();
 	testWebSocket();
 	
-	plot = $.plot("#Electronics", [ getRandomData(0,dataElecSales,'elecSales') ], {
+	plot = $.plot("#Electronics", [ getRandomData(0) ], {
 		series: {
 			shadowSize: 0	// Drawing is faster without shadows
 		},
 		yaxis: {
 			min: 0,
-			max: 100
+			max: 100,
+			tickDecimals: 2
 		},
 		xaxis: {
-			show: false
+			mode: "time"
 		}
 	});
-	elecEmp = $.plot("#ElectronicsEmps", [ getRandomData(0,dataElecEmps,'elecEmps') ], {
+	elecEmp = $.plot("#ElectronicsEmps", [ getElecEmpData(0) ], {
 		series: {
 			shadowSize: 0	// Drawing is faster without shadows
 		},
@@ -32,7 +33,7 @@ $(function () {
 			max: 6
 		},
 		xaxis: {
-			show: false
+			mode: "time"
 		}
 	});
 
@@ -67,11 +68,13 @@ function onMessage(evt) {
 	  var message;
 	  message = JSON.parse(evt.data);
 	  $("#footer").prepend(message);
-	  if (message.response.hasOwnProperty('associateId')) {
-		  elecEmp.setData([getRandomData(message.response.total,dataElecEmps, 'elecEmps')]);
+	  if (message.response.hasOwnProperty('total')) {
+		  if(message.response.deptId == 25) {
+		  elecEmp.setData([getElecEmpData(message.response.total)]);
 		  elecEmp.draw(); 
+		  }
 	 } else if (message.response.hasOwnProperty('amount')) {
-		  plot.setData([getRandomData(message.response.amount,dataElecSales, 'elecSales')]);
+		  plot.setData([getRandomData(message.response.amount)]);
 		  plot.draw();
 	 }
 }  
@@ -105,29 +108,45 @@ var dataElecSales = [],
 dataElecEmps = [],
 totalPoints = 300;
 
-function getRandomData(amount,datag, type) {
+function getRandomData(amount) {
 
-	if (datag.length > 0)
-		datag = datag.slice(1);
+	if (dataElecSales.length > 0)
+		dataElecSales = dataElecSales.slice(1);
 	
 	// Do a random walk
 	
-	while (datag.length < totalPoints) {
+	while (dataElecSales.length < totalPoints) {
 	
-		datag.push(amount);
+		dataElecSales.push(amount);
 	}
 	
 	// Zip the generated y values with the x values
 	
 	var res = [];
-	for (var i = 0; i < datag.length; ++i) {
-		res.push([i, datag[i]])
+	for (var i = 0; i < dataElecSales.length; ++i) {
+		res.push([i, dataElecSales[i]])
 	}
-	switch (type) {
-		case "elecSales":
-			dataElecSales = datag;
-		case "elecEmp":
-			dataElecEmps = datag;
+
+	return res;
+}
+
+function getElecEmpData(amount) {
+
+	if (dataElecEmps.length > 0)
+		dataElecEmps = dataElecEmps.slice(1);
+	
+	// Do a random walk
+	
+	while (dataElecEmps.length < totalPoints) {
+	
+		dataElecEmps.push(amount);
+	}
+	
+	// Zip the generated y values with the x values
+	
+	var res = [];
+	for (var i = 0; i < dataElecEmps.length; ++i) {
+		res.push([i, dataElecEmps[i]])
 	}
 	return res;
 }

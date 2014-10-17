@@ -20,6 +20,7 @@ class DepartmentTotalsActor(dept: Int) extends Actor {
 
     override def preStart() {
     	currTotal = LocationService.getTotalEmployeesForDept(dept)
+    	context.system.eventStream.subscribe(context.self, classOf[Location]);
     	Logger.info(s"Starting DepartmentTotals with a total of $currTotal");
     }
   

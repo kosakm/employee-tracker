@@ -12,7 +12,7 @@ $(function () {
 });
 
 function init() {
-	wsURI = "localhost:9000/associateWs";
+	wsURI = "ws://localhost:9000/associateWs";
 	outputDiv = document.getElementById("output"); 
 	$("#sendLocation").click(function() {
 		sendLocation();
@@ -28,7 +28,7 @@ function sendLocation() {
 	var site = $('#site').val();
 	var event_type = $('#event_type').val();	
 	var now = "2014-10-16 18:16:22 MST";
-	var json = '{"associateId":' + associate_id + ',"departmentId":' + department_id + ',"site":1,"eventTime":"2014-10-16 18:16:22","eventType":0}';
+	var json = '{"associateId":' + associate_id + ',"departmentId":' + department_id + ',"site":1,"eventTime":"2014-10-16 18:16:22","eventType":'+event_type+'}';
 	var locationUpdate = '"associate_id": ' + associate_id + ', "department_id": ' + department_id + ', "site": "' + site + '", "event_time": "' + now + '", "event_type": ' + event_type;
 	doSend(json);
 }
